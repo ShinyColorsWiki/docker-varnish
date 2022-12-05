@@ -9,6 +9,6 @@ RUN go build -o prometheus_varnish_exporter .
 
 FROM varnish:alpine
 
-COPY --from=exporter /go/bin/prometheus_varnish_exporter /usr/local/bin
+COPY --from=exporter /src/prometheus_varnish_exporter /usr/local/bin
 
 USER varnish
