@@ -1,10 +1,11 @@
 FROM golang:alpine as exporter
 
 RUN apk add --no-cache git && \
-    go get github.com/jonnenauha/prometheus_varnish_exporter
+    git clone https://github.com/jonnenauha/prometheus_varnish_exporter.git /src
+    
 
-WORKDIR /go/src/github.com/jonnenauha/prometheus_varnish_exporter
-RUN go build
+WORKDIR /src
+RUN go build -o prometheus_varnish_exporter .
 
 FROM varnish:alpine
 
