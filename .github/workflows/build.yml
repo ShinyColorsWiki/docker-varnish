@@ -28,7 +28,8 @@ jobs:
     - name: Test Varnish and exporter
       run: |
         docker run --rm varnish:test varnishd -V 2>&1 | grep 'varnish-9.1.0'
-        docker run -d --name varnish-smoke --no-healthcheck varnish:test
+        docker run -d --name varnish-smoke --no-healthcheck varnish:test \
+          sh -c 'docker-varnish-entrypoint & exec varnishlog'
         trap 'docker logs varnish-smoke; docker rm -f varnish-smoke' EXIT
         docker exec -d varnish-smoke prometheus_varnish_exporter
         for _ in $(seq 1 30); do
